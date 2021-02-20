@@ -33,6 +33,7 @@ class TextileConverter():
         self.regexWikiImage = re.compile(r'!\[\]\((.*)\)')
         
     def wiki_image(self, match):
+        print('here')
         name = match.group(1)
         return '![{}]({})'.format(name, name)
 

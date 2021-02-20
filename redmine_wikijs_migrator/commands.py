@@ -4,12 +4,12 @@ import logging
 import re
 import sys
 
-from redmine2wikijs.redmine import RedmineProject, RedmineClient
-from redmine2wikijs.gitlab import GitlabProject, GitlabClient
-from redmine2wikijs.converters import convert_issue, convert_version, load_user_dict
-from redmine2wikijs.logger import setup_module_logging
-from redmine2wikijs.wiki import TextileConverter, WikiPageConverter
-from redmine2wikijs import sql
+from redmine_wikijs_migrator.redmine import RedmineProject, RedmineClient
+from redmine_wikijs_migrator.gitlab import GitlabProject, GitlabClient
+from redmine_wikijs_migrator.converters import convert_issue, convert_version, load_user_dict
+from redmine_wikijs_migrator.logger import setup_module_logging
+from redmine_wikijs_migrator.wiki import TextileConverter, WikiPageConverter
+from redmine_wikijs_migrator import sql
 
 
 """Migration commands for issues and roadmaps from redmine to gitlab
@@ -407,7 +407,7 @@ def main():
             loglevel = logging.INFO
 
         # Configure global logging
-        setup_module_logging('redmine2wikijs', level=loglevel)
+        setup_module_logging('redmine_wikijs_migrator', level=loglevel)
         try:
             args.func(args)
 

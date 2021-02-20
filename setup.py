@@ -1,4 +1,14 @@
+#!/usr/bin/env python
+from __future__ import unicode_literals
+
+import os
 from setuptools import setup, find_packages
+
+
+try:
+    README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
+except IOError:
+    README = ''
 
 setup(
     name='redmine-wikijs-migrator',
@@ -13,7 +23,7 @@ setup(
     install_requires=['pyyaml', 'requests', 'GitPython', 'pypandoc'],
     entry_points={
         'console_scripts': [
-            'redmine2wikijs = redmine-wikijs-migrator.commands:main',
+            'redmine2wikijs=redmine_wikijs_migrator.commands:main'
         ],
     },
     classifiers=[
