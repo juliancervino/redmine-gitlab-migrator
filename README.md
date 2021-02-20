@@ -1,72 +1,29 @@
-Redmine to Gitlab migrator
-==========================
+Redmine wiki to Wiki.js migrator
+================================
 
-[![Build Status](https://travis-ci.org/redmine-gitlab-migrator/redmine-gitlab-migrator.svg?branch=master)](https://travis-ci.org/redmine-gitlab-migrator/redmine-gitlab-migrator)
 
-Migrate code projects from Redmine to Gitlab, keeping issues/milestones/metadata
+
+Migrate wiki from Redmine to Wiki.js
 
 Does
 ----
 
 - Per-project migrations
-- Migration of issues, keeping as much metadata as possible:
-  - redmine trackers become tags
-  - redmine categories become tags
-  - issues comments are kept and assigned to the right users
-  - issues final status (open/closed) are kept along with open/close date (not detailed status history)
-  - issues assignments are kept
-  - issues numbers (ex: `#123`)
-  - issues/notes authors
-  - issues/notes original dates, but as comments
-  - issue attachments
-  - issue related changesets
-  - issues custom fields (if specified)
-  - relations including children and parent (although gitlab model for relations is simpler)
-  - keep creation/edit dates as metadata
-  - remember who closed the issue
-  - convert Redmine's textile format issues to GitLab's markdown
-  - possible to map to different users in GitLab
-- Migration of Versions/Roadmaps keeping:
-  - issues composing the version
-  - statuses & due dates
 - Migration of wiki pages including history:
   - versions become older commits
   - author names (without email addresses!) are the author/committer names
-
-Does not
---------
-
-- Migrate users, groups, and permissions (redmine ACL model is complex and
-  cannot be transposed 1-1 to gitlab ACL)
-- Migrate repositories (piece of cake to do by hand, + redmine allows multiple
-  repositories per project where gitlab does not)
-- Migrate the whole redmine installation at once, because namespacing is different in
-  redmine and gitlab
-- Archive the redmine project for you
-- Keep "watchers" on tickets (gitlab API v3 does not expose it)
-- Keep dates/times as metadata
-- Keep track of issue relations orientation (no such notion on gitlab)
-- Migrate tags ([redmine_tags](https://www.redmine.org/plugins/redmine_tags)
-  plugin), as they are not exposed in gitlab API
 
 Requires
 --------
 
 - Python >= 3.5
-- gitlab >= 7.0
 - redmine >= 1.3
 - pandoc >= 1.17.0.0
 - API token on redmine
-- API token on gitlab
-- No preexisting issues on gitlab project
-- Already synced users (those required in the project you are migrating)
+- API token on Wiki.js
 
-(Original version was developed/tested around redmine 2.5.2, gitlab 8.2.0, python 3.4)
-(Updated version was developed/tested around redmine 3.2.0, gitlab 12.3, python 3.6.8)
-
-
-Let's go
---------
+Let's go (TODO)
+---------------
 
 You can or can not use
 [virtualenvs](http://docs.python-guide.org/en/latest/dev/virtualenvs/), that's
@@ -306,3 +263,7 @@ After starting a container you can access GitLab http://localhost:8081
 
 cf. GitLab Docs
 GitLab Docs > User Docs > Projects > Project settings > [Project import/export](https://docs.gitlab.com/ee/user/project/settings/import_export.html)
+
+Credits
+----------------------
+Many thanks to the @oasiswork team for the good work they have done with the project redmine-gitlab-migrator on which this project is based on.
