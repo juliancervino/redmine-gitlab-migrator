@@ -5,7 +5,7 @@ from . import APIClient, Project
 import urllib
 from urllib.request import urlopen
 
-from redmine_gitlab_migrator.converters import redmine_username_to_gitlab_username
+from redmine2wikijs.converters import redmine_username_to_gitlab_username
 
 from json.decoder import JSONDecodeError
 

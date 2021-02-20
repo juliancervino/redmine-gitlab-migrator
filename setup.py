@@ -1,31 +1,21 @@
-#!/usr/bin/env python
-from __future__ import unicode_literals
-
-import os
-from setuptools import setup
-
-try:
-    README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
-except IOError:
-    README = ''
+from setuptools import setup, find_packages
 
 setup(
-    name='redmine-gitlab-migrator',
-    version='1.0.3',
+    name='redmine2wikijs',
+    version='0.1.1',
     description='Migrate a redmine project to gitlab',
     long_description=README,
-    author='Jocelyn Delalande',
-    author_email='jdelalande@oasiswork.fr',
+    author='Julian Cervino',
+    author_email='jcerigl@gmail.com',
     license='GPL',
-    url='https://github.com/redmine-gitlab-migrator/redmine-gitlab-migrator',
-    packages=['redmine_gitlab_migrator'],
+    url='https://github.com/juliancervino/redmine-wikijs-migrator',
+    packages=find_packages(),
     install_requires=['pyyaml', 'requests', 'GitPython', 'pypandoc'],
     entry_points={
         'console_scripts': [
-            'migrate-rg = redmine_gitlab_migrator.commands:main'
-        ]
+            'redmine2wikijs = redmine2wikijs.commands:main',
+        ],
     },
-    test_suite='redmine_gitlab_migrator.tests',
     classifiers=[
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
     ]

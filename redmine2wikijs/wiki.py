@@ -4,6 +4,7 @@ import pypandoc
 import logging
 import re
 import unicodedata
+import urllib.request
 
 log = logging.getLogger(__name__)
 
@@ -29,6 +30,11 @@ class TextileConverter():
         self.regexParagraph = re.compile(r'p(\(+|(\)+)?>?|=)?\.', re.MULTILINE | re.DOTALL)
         self.regexCodeHighlight = re.compile(r'(<code\s?(class=\"(.*)\")?>).*(</code>)', re.MULTILINE | re.DOTALL)
         self.regexAttachment = re.compile(r'attachment:[\'\"“”‘’„”«»](.*)[\'\"“”‘’„”«»]', re.MULTILINE | re.DOTALL)
+        self.regexWikiImage = re.compile(r'!\[\]\((.*)\)')
+        
+    def wiki_image(self, match):
+        name = match.group(1)
+        return '![{}]({})'.format(name, name)
 
     def wiki_link(self, match):
         name = match.group(1)
@@ -38,6 +44,7 @@ class TextileConverter():
             text = name
 
         name = self.normalize(name).replace(' ', '_')
+        name = './' + name
         return '[{}]({})'.format(text, name)
 
     def normalize(self, title):
@@ -66,6 +73,9 @@ class TextileConverter():
             # pandoc does not convert everything, notably the [[link|text]] syntax
             # is not handled. So let's fix that.
 
+            # ![](image) -> ![image](image)
+            text = re.sub(self.regexWikiImage, self.wiki_image, text, re.MULTILINE | re.DOTALL)
+            
             # [[ wikipage | link_text ]] -> [link_text](wikipage)
             text = re.sub(self.regexWikiLinkWithText, self.wiki_link, text, re.MULTILINE | re.DOTALL)
 
@@ -97,6 +107,7 @@ class TextileConverter():
                 for i in range(0, len(codeHighlights)):
                     text = text.replace(codeHighlights[i][0], "\n```{}".format(codeHighlights[i][2].lower()))
                     text = text.replace(codeHighlights[i][3], "\n```")
+            
         except RuntimeError as e:
             return False
         return text
@@ -132,7 +143,7 @@ class WikiPageConverter():
 
         self.textile_converter = TextileConverter()
 
-    def convert(self, redmine_page):
+    def convert(self, redmine_page, redmine_api_key):
         title = self.textile_converter.normalize(redmine_page["title"])
         if (title == 'Wiki'):
             title = 'home'
@@ -159,6 +170,19 @@ class WikiPageConverter():
             print(text.replace('\n', "\n"), file=fd)
 
         # todo: check for attachments
+        attachments = redmine_page.get('attachments', [])
+        for a in attachments:
+            id = a['id']
+            filename = a['filename']
+            content_type = a['content_type']
+            content_url = '{}?key={}'.format(a['content_url'], redmine_api_key) 
+            print("Attachment {} {} {} {}".format(id, filename, content_type, content_url))
+            urllib.request.urlretrieve(content_url, self.repo_path + "/" + title + "_" + filename)
+            author = Actor(redmine_page["author"]["name"], "")
+            time   = redmine_page["updated_on"].replace("T", " ").replace("Z", " +0000")
+            self.repo.index.add([title + "_" + filename])
+            self.repo.index.commit("Attachment" + filename, author=author, committer=author, author_date=time, commit_date=time)
+
         # todo: upload attachments
 
         if redmine_page["comments"]:

@@ -103,7 +103,7 @@ class RedmineProject(Project):
 
     def get_page(self, title, version):
         return self.api.get(
-            '{}/wiki/{}/{}.json'.format(self.public_url, title, version))
+            '{}/wiki/{}/{}.json?include=attachments'.format(self.public_url, title, version))
 
     def get_participants(self):
         """Get participating users (issues authors/owners)
