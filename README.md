@@ -54,107 +54,6 @@ commands.
 Migration process
 -----------------
 
-This process is for each project, **order matters**.
-
-### Create the gitlab project
-
-It doesn't need to be named the same, you just have to record its URL (eg:
-*https://git.example.com/mygroup/myproject*).
-
-### Create users
-
-Manual operation, project members in gitlab need to have the same username as
-members in redmine. If you can't use same username in gitlab, e.g. migrating to
-gitlab.com, when migrating issues you can create a mappings file with yaml format,
-mapping redmine login to gitlab login, with
-
-    --user-dict <user dict file>
-
-Every member that interacted with the redmine project should be added to the
-gitlab project. If a corresponding user can't be found in gitlab, the issue/comment
-will be assigned to the gitlab admin user.
-
-```yaml
-redmine_user0: gitlab_user0
-redmine_user1: gitlab_user1
-```
-
-For example, say that you have user on Redmine with username `bar` and that same user
-on GitLab has username `foo`. You can save your mapping to `users.yml` file with the
-following content:
-
-```yaml
-bar: foo
-```
-
-and then run the migration with `migrate-rg --user-dict users.yml`, among other flags,
-assuming you are running the migration from the same directory where you stored your
-user mapping.
-
-### Migrate Roadmap
-
-If you do use roadmaps, redmine *versions* will be converted to gitlab
-*milestones*. If you don't, just skip this step.
-
-    migrate-rg roadmap --redmine-key xxxx --gitlab-key xxxx \
-      https://redmine.example.com/projects/myproject \
-      http://git.example.com/mygroup/myproject --check
-
-*(remove `--check` to perform it for real, same applies for other commands)*
-
-### Migrate issues
-
-    migrate-rg issues --redmine-key xxxx --gitlab-key xxxx \
-      https://redmine.example.com/projects/myproject \
-      http://git.example.com/mygroup/myproject --check
-
-Note that your issue titles will be annotated with the original redmine issue
-ID, like *-RM-1186-MR-logging*. This annotation will be used (and removed) by
-the next step.
-
-If you don't have direct access to the gitlab machine, e.g. migrating to gitlab.com,
-and you want to keep redmine id, use --keep-id, it will create and delete issues in
-gitlab for each id gap in redmine project, and won't create issues with different title.
-If you have many issues in your redmine projects, it will be a slow process.
-
-    --keep-id
-
-At least redmine 2.1.2 has no closed_on field, so you have to specify the names of the states which define closed issues.
-defaults to closed,rejected
-
-    --closed-states closed,rejected,wontfix
-
-If you want to migrate redmine custom fields (as description), you can specify
-
-    --custom-fields Customer,ZendeskIssueId
-
-If you're using SSL with self signed certificates and get an *requests.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)* error, you can disable certificate validation with
-
-    --no-verify
-
-Migrate issues get all users in gitlab. If you have many users in your gitlab, e.g. migrating
-to gitlab.com, it will be a slow process. You can use --project-members-only to query
-project members instead of all users, if corresponding user can't be found in project
-members, the issue/comment will be assigned to the gitlab admin user.
-
-    --project-members-only
-
-If you don't have admin access to gitlab instance, e.g. migrating to gitlab.com, sudo_user is not
-allowed, so you have to disable sudo with
-
-    --no-sudo
-
-### Migrate Issues ID (iid)
-
-You can retain the issues ID from redmine, **this cannot be done via REST
-API**, thus it requires **direct access to the gitlab machine**.
-
-So you have to log in the gitlab machine (eg. via SSH), and then issue the
-command with sufficient rights, from there:
-
-    migrate-rg iid --gitlab-key xxxx \
-      http://git.example.com/mygroup/myproject --check
-
 ### Migrate wiki pages
 
 First, clone the GitLab wiki repository (go to your project's Wiki on GitLab,
@@ -173,45 +72,6 @@ After conversion, verify that everything is correct (a copy of the original
 wiki page is included in the repo, however not added/committed), and then
 simply push it back to GitLab.
 
-### Import git repository
-
-A bare matter of `git remote set-url && git push`, see git documentation.
-
-Note that gitlab does not support multiple repositories per project, you'll have
-to reorganize your projects if you were using that feature of Redmine.
-
-### Delete all issues from gitlab
-
-Primarily for redos in case something wasn't configured as intended
-
-    migrate-rg delete-issues --debug --gitlab-key xxx https://git.example.com/mygroup/myproject
-
-### Archive redmine project
-
-If you want to.
-
-You're good to go :).
-
-### Optional: Redirect redmine to gitlab (for apache)
-
-Since redmine has a common *https://redmine.company.tld/issues/{issueid}* url for issues, you can't create a generic redirect in apache.
-
-This command creates redirect rules that you can place in your `.htaccess` file.
-
-    migrate-rg redirect --redmine-key xxxx --gitlab-key xxxx \
-      https://redmine.example.com/projects/myproject \
-      http://git.example.com/mygroup/myproject > htaccess.example
-
-The content of htaccess.example will be
-
-    # uncomment next line to enable RewriteEngine
-    # RewriteEngine On
-    # Redirects from https://redmine.example.com/projects/myproject to https://git.example.com/mygroup/myproject
-    RedirectMatch 301 ^/issues/1$ https://git.example.com/mygroup/myproject/issues/1
-    RedirectMatch 301 ^/issues/2$ https://git.example.com/mygroup/myproject/issues/2
-    ...
-    RedirectMatch 301 ^/issues/999$ https://git.example.com/mygroup/myproject/999
-
 Unit testing
 ------------
 
@@ -221,8 +81,8 @@ Use the standard way:
 
 Or use whatever test runner you fancy.
 
-Using Docker container
-----------------------
+Using Docker container (TODO)
+-----------------------------
 
 ### Start up GitLab with migrator
 
