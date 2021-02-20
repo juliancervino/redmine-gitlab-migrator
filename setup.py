@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='redmine2wikijs',
+    name='redmine-wikijs-migrator',
     version='0.1.1',
     description='Migrate a redmine project to gitlab',
     long_description=README,
@@ -13,7 +13,7 @@ setup(
     install_requires=['pyyaml', 'requests', 'GitPython', 'pypandoc'],
     entry_points={
         'console_scripts': [
-            'redmine2wikijs = redmine2wikijs.commands:main',
+            'redmine2wikijs = redmine-wikijs-migrator.commands:main',
         ],
     },
     classifiers=[
