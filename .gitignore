@@ -10,3 +10,7 @@ build/
 dist/
 .idea/
 srv/
+.vscode/launch.json
+.vscode/settings.json
+.vscode/.ropeproject/objectdb
+.vscode/.ropeproject/config.py

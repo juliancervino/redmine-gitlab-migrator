@@ -144,7 +144,7 @@ class WikiPageConverter():
 
         self.textile_converter = TextileConverter()
 
-    def convert(self, redmine_page, redmine_api_key):
+    def convert(self, redmine_page, redmine_api_key, wikijs):
         title = self.textile_converter.normalize(redmine_page["title"])
         if (title == 'Wiki'):
             title = 'home'
@@ -169,6 +169,10 @@ class WikiPageConverter():
         file_name = title + ".md"
         with open(self.repo_path + "/" + file_name, mode='wt', encoding='utf-8') as fd:
             print(text.replace('\n', "\n"), file=fd)
+
+        # create page in wikijs
+        print ("Creating page in wiki.js: " + title)
+        wikijs.create_page("/migracion/" + title, text, title, title, "markdown", "en", ["migrated","redmine","queres"], True, True)
 
         # todo: check for attachments
         attachments = redmine_page.get('attachments', [])

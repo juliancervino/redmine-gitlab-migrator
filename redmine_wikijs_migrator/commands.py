@@ -10,7 +10,7 @@ from redmine_wikijs_migrator.converters import convert_issue, convert_version, l
 from redmine_wikijs_migrator.logger import setup_module_logging
 from redmine_wikijs_migrator.wiki import TextileConverter, WikiPageConverter
 from redmine_wikijs_migrator import sql
-
+from redmine_wikijs_migrator.graphql import GqlClient
 
 """Migration commands for issues and roadmaps from redmine to gitlab
 """
@@ -134,7 +134,17 @@ def parse_args():
         '--gitlab-wiki',
         required=True,
         help="Path to local cloned copy of the GitLab Wiki's git repository")
+    
+    parser_pages.add_argument(
+        '--wikijs-url',
+        required=True,
+        help="Wiki.js grahpql url endpoint")
 
+    parser_pages.add_argument(
+        '--wikijs-key',
+        required=True,
+        help="Wiki.js API key")
+    
     parser_pages.add_argument(
         '--no-history',
         action='store_true',
@@ -184,7 +194,7 @@ def perform_migrate_pages(args):
 
     # Get copy of GitLab wiki repository
     wiki = WikiPageConverter(args.gitlab_wiki)
-
+    
     # convert all pages including history
     pages = []
     for page in redmine_project.get_all_pages():
@@ -200,8 +210,9 @@ def perform_migrate_pages(args):
     # sort everything by date and convert
     pages.sort(key=lambda page: page["updated_on"])
 
+    wikijs = GqlClient(args.wikijs_url, args.wikijs_key)
     for page in pages:
-        wiki.convert(page,args.redmine_key)
+        wiki.convert(page,args.redmine_key, wikijs)
 
 def perform_migrate_issues(args):
     closed_states = []
