@@ -22,7 +22,46 @@ Requires
 - API token on redmine
 - API token on Wiki.js
 
-Let's go (TODO)
+
+
+## Installing Python & pip
+
+https://docs.python-guide.org/starting/installation/
+
+`apt-get install python3`
+`apt-get install python3-pip`
+
+## Python Virtual Envs (optional)
+
+* https://docs.python-guide.org/dev/virtualenvs/
+
+`apt-get install python3`
+
+## VSCode 
+
+* https://code.visualstudio.com/docs/python/python-tutorial
+* https://code.visualstudio.com/docs/python/environments
+
+## Install module
+
+`python3 setup.py develop`
+`python3 setup.py install`
+
+
+## Install pandoc
+
+`apt-get install pandoc`
+
+
+## Launch
+
+`mkdir tmp`
+
+`git init tmp`
+
+`redmine2wikijs pages --wikijs-url <wiki.js graphql endpoint> --wikijs-key <wiki.js key> --redmine-key <redmine api key> --no-history --gitlab-wiki tmp  <redmine project url>`
+
+Let's go (OLD)
 ---------------
 
 You can or can not use
