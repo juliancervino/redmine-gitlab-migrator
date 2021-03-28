@@ -61,7 +61,8 @@ https://docs.python-guide.org/starting/installation/
 
     git init tmp
 
-    redmine2wikijs pages --wikijs-url <wiki.js graphql endpoint> --wikijs-key <wiki.js key> --redmine-key <redmine api key> --no-history --gitlab-wiki tmp  <redmine project url>
+    redmine2wikijs pages --wikijs-url <wiki.js graphql endpoint> --wikijs-key <wiki.js key> \
+      --redmine-key <redmine api key> --no-history --gitlab-wiki tmp  <redmine project url>
 
 Let's go (OLD)
 ---------------
