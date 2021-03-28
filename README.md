@@ -29,6 +29,7 @@ Requires
 https://docs.python-guide.org/starting/installation/
 
 `apt-get install python3`
+
 `apt-get install python3-pip`
 
 ## Python Virtual Envs (optional)
