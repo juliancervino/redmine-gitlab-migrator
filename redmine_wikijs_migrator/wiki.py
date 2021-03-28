@@ -172,7 +172,8 @@ class WikiPageConverter():
 
         # create page in wikijs
         print ("Creating page in wiki.js: " + title)
-        wikijs.create_page("/migracion/" + title, text, title, title, "markdown", "en", ["migrated","redmine","queres"], True, True)
+        #wikijs.create_or_update_page("migracion/" + title, text, title, title, "markdown", "en", ["migrated","redmine","queres"], True, True)
+        wikijs.create_page("migracion/" + title, text, title, title, "markdown", "en", ["migrated","redmine","queres"], True, True)
 
         # todo: check for attachments
         attachments = redmine_page.get('attachments', [])

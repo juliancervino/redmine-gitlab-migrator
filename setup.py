@@ -20,7 +20,7 @@ setup(
     license='GPL',
     url='https://github.com/juliancervino/redmine-wikijs-migrator',
     packages=find_packages(),
-    install_requires=['pyyaml', 'requests', 'GitPython', 'pypandoc','gql'],
+    install_requires=['pyyaml', 'requests', 'GitPython', 'pypandoc','gql','aiohttp'],
     entry_points={
         'console_scripts': [
             'redmine2wikijs=redmine_wikijs_migrator.commands:main'
