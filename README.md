@@ -28,15 +28,15 @@ Requires
 
 https://docs.python-guide.org/starting/installation/
 
-`apt-get install python3`
+    apt-get install python3
 
-`apt-get install python3-pip`
+    apt-get install python3-pip
 
 ## Python Virtual Envs (optional)
 
 * https://docs.python-guide.org/dev/virtualenvs/
 
-`apt-get install python3`
+    apt-get install python3
 
 ## VSCode 
 
@@ -45,23 +45,23 @@ https://docs.python-guide.org/starting/installation/
 
 ## Install module
 
-`python3 setup.py develop`
+    python3 setup.py develop
 
-`python3 setup.py install`
+    python3 setup.py install
 
 
 ## Install pandoc
 
-`apt-get install pandoc`
+    apt-get install pandoc
 
 
 ## Launch
 
-`mkdir tmp`
+    mkdir tmp
 
-`git init tmp`
+    git init tmp
 
-`redmine2wikijs pages --wikijs-url <wiki.js graphql endpoint> --wikijs-key <wiki.js key> --redmine-key <redmine api key> --no-history --gitlab-wiki tmp  <redmine project url>`
+    redmine2wikijs pages --wikijs-url <wiki.js graphql endpoint> --wikijs-key <wiki.js key> --redmine-key <redmine api key> --no-history --gitlab-wiki tmp  <redmine project url>
 
 Let's go (OLD)
 ---------------
