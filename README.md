@@ -45,6 +45,7 @@ https://docs.python-guide.org/starting/installation/
 ## Install module
 
 `python3 setup.py develop`
+
 `python3 setup.py install`
 
 
