@@ -64,8 +64,8 @@ https://docs.python-guide.org/starting/installation/
     redmine2wikijs pages --wikijs-url <wiki.js graphql endpoint> --wikijs-key <wiki.js key> \
       --redmine-key <redmine api key> --no-history --gitlab-wiki tmp  <redmine project url>
 
-Let's go (OLD)
----------------
+Old Documentation
+-----------------
 
 You can or can not use
 [virtualenvs](http://docs.python-guide.org/en/latest/dev/virtualenvs/), that's
