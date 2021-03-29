@@ -36,8 +36,6 @@ https://docs.python-guide.org/starting/installation/
 
 * https://docs.python-guide.org/dev/virtualenvs/
 
-    apt-get install python3
-
 ## VSCode 
 
 * https://code.visualstudio.com/docs/python/python-tutorial
